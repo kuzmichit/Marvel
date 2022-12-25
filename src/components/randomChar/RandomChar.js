@@ -1,8 +1,8 @@
 import './randomChar.scss';
-import thor from '../../resources/img/thor.jpeg';
 import mjolnir from '../../resources/img/mjolnir.png';
 import { Component } from 'react';
 import MarvelService from '../../services/MarvelService';
+import Spinner from '../spinner/Spinner';
 
 class RandomChar extends Component {
   constructor(props) {
@@ -11,28 +11,30 @@ class RandomChar extends Component {
   }
 
   state = {
-    name: null,
-    description: null,
-    thumbnail: null,
-    homepage: null, 
-    wiki: null
+    char: {},
+    loading: true
   };
 
   marvelService = new MarvelService();
+
+  onCharLoaded = char => {
+    this.setState( {char} );
+  };
 
   updateChar = () => {
     const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
 
     this.marvelService.getCharacter(id)
-      .then( (res) => {
-        this.setState(res);
-      } );
+      .then(this.onCharLoaded);
   };
-  render() {
-    const {name, description, thumbnail, homepage, wiki} = this.state;
 
-    return (
-      <div className = "randomchar">
+  render() {
+    const {char, loading } = this.state;
+
+    const View = (char) => {
+      const {name, description, thumbnail, homepage, wiki} = char;
+			
+      return (
         <div className = "randomchar__block">
           <img src = { thumbnail } alt = "Random character" className = "randomchar__img"/>
           <div className = "randomchar__info">
@@ -48,6 +50,13 @@ class RandomChar extends Component {
             </div>
           </div>
         </div>
+      ); 
+    };
+
+    return (
+      <div className = "randomchar">
+				
+        {loading ? <Spinner/> : <View char = { char } />}       
         <div className = "randomchar__static">
           <p className = "randomchar__title">
                     Random character for today!<br/>
@@ -63,6 +72,7 @@ class RandomChar extends Component {
         </div>
       </div>
     );
+   
   }
 }
 
