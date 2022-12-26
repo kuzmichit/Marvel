@@ -45,7 +45,7 @@ class RandomChar extends Component {
 
     const spinner = loading ? <Spinner/> : null;
     const errorMessage = error ? <ErrorMessage/> : null;
-    const view = !(spinner || false) ? <View char = { char }/> : null;
+    const view = !(spinner || errorMessage) ? <View char = { char }/> : null;
 
     return (
       <div className = "randomchar">
