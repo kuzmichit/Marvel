@@ -35,21 +35,12 @@ class MarvelService {
     return (desc || 'Description in process'); 
   };
 
-  isImgNotAvailable = (path) => {
-    if (path === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available') {
-      console.log('fires');
-    }
-    // console.log(path);
-    
-    return path;
-  };
-
   _transformCharacter = (char) => {
 
     return {
       name: char.name,
       description: this.checkCharDesc(char.description),
-      thumbnail: this.isImgNotAvailable(char.thumbnail.path) + '.' + char.thumbnail.extension,
+      thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
       homepage: char.urls[0].url, 
       wiki: char.urls[1].url
     };
