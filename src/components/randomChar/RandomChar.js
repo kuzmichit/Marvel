@@ -7,7 +7,7 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 class RandomChar extends Component {
   constructor(props) {
     super();
-    this.updateChar();
+    
   }
 
   state = {
@@ -17,6 +17,19 @@ class RandomChar extends Component {
   };
 
   marvelService = new MarvelService();
+
+  componentDidMount() {
+    this.updateChar();
+    console.log('mount');
+  }
+  
+  componentWillUnmount() {
+    console.log('unmount');
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log('update')
+  }
 
   onCharLoaded = char => {
     this.setState( {
@@ -61,7 +74,7 @@ class RandomChar extends Component {
                     Or choose another one
           </p>
           <button className = "button button__main">
-            <div className = "inner">try it</div>
+            <div className = "inner" onClick = { this.updateChar }>try it</div>
           </button>
           <img src = { mjolnir } alt = "mjolnir" className = "randomchar__decoration"/>
         </div>
