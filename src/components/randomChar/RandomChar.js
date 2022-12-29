@@ -52,7 +52,7 @@ class RandomChar extends Component {
       <div className = "randomchar">
         {spinner}
         {errorMessage}
-        {view}  
+        {view}
         <div className = "randomchar__static">
           <p className = "randomchar__title">
                     Random character for today!<br/>
@@ -70,7 +70,6 @@ class RandomChar extends Component {
     );
   }
 }   
-
 const View = ( {char} ) => {
   const {name, description, thumbnail, homepage, wiki} = char;
   let objectFit = {objectFit: 'contain'};
