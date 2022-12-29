@@ -1,19 +1,31 @@
 import './charList.scss';
-// import abyss from '../../resources/img/abyss.jpg';
+import ErrorMessage from '../errorMessage/ErrorMessage';
 import { Component } from 'react';
 import MarvelService from '../../services/MarvelService';
+import Spinner from '../spinner/Spinner';
 
 class CharList extends Component {
   state = {
-    characters: {},
+    characters: [],
+    loading: true,
+    error: false
   };
 
   marvelService = new MarvelService();
 
   onCharactersLoaded = characters => {
     this.setState(
-      {characters}
+      {characters,
+        loading: false,
+      }
     );
+  };
+
+  onError = () => {
+    this.setState( {
+      loading: false,
+      error: true
+    } );
   };
 
   componentDidMount() {
@@ -23,43 +35,54 @@ class CharList extends Component {
 
   updateAllCharacters = () => {
     this.marvelService.getAllCharacters()
-      .then(this.onCharactersLoaded);
+      .then(this.onCharactersLoaded)
+      .catch(this.onError);
   };
 
-  render() {
-    const { characters } = this.state;
-    if(!Array.isArray(characters) ) { return null; }
-    
-    const chars = characters.map(item => {
-      const {id, ...restItem} = item;
-      
+  renderCharList = (charList) => {
+
+    const items = charList.map(item => {
+
+      let imgStyle = {objectFit: 'cover'};
+      if(item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') { 
+        imgStyle = {objectFit: 'unset'};
+      }
+			
       return (
-        <Character key = { id } { ...restItem }/>
-
+        <li 
+          className = { 'char__item' } 
+          key = { item.id }
+          onClick = { (id => this.props.onCharSelected(id) ) }>
+          <img src = { item.thumbnail } style = { imgStyle } alt = { item.name }/>
+          <div className = { 'char__name' }>{ item.name }</div>
+        </li>
       );
-
     } );
 
     return (
+      <ul className = "char__grid">
+        {items}
+      </ul>
+    );
+  };
+
+  render() {
+    const { characters, loading, error } = this.state;
+    console.log('-------------------------------');
+    
+    const spinner = loading ? <Spinner/> : null;
+    const errorMessage = error ? <ErrorMessage/> : null;
+    const chars = (spinner || errorMessage) ? this.renderCharList(characters) : null;  
+
+    return (
       <div className = "char__list">
-        <ul className = "char__grid">
-          {chars}
-        </ul>
+        {this.renderCharList(characters)}
         <button className = "button button__main button__long">
           <div className = "inner">load more</div>
         </button>
       </div>
     );
   }
-}
-
-function Character(props) {
-  return(
-    <li className = { 'char__item' }>
-      <img src = { props.thumbnail } alt = "Character image"/>
-      <div className = { 'char__name' }>{ props.name }</div>
-    </li>
-  );
 }
 
 export default CharList;
