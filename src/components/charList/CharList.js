@@ -5,6 +5,9 @@ import MarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
 
 class CharList extends Component {
+  constructor() {
+    super();
+  }
   state = {
     characters: [],
     loading: true,
@@ -28,12 +31,18 @@ class CharList extends Component {
     } );
   };
 
+  onCharLoading = () => {
+    this.setState( {
+      loading: true,
+    } );
+  };
+
   componentDidMount() {
     this.updateAllCharacters();
-    
   }
 
   updateAllCharacters = () => {
+    this.onCharLoading();
     this.marvelService.getAllCharacters()
       .then(this.onCharactersLoaded)
       .catch(this.onError);
@@ -52,7 +61,7 @@ class CharList extends Component {
         <li 
           className = { 'char__item' } 
           key = { item.id }
-          onClick = { (id => this.props.onCharSelected(id) ) }>
+          onClick = { () => this.props.onCharSelected(item.id) }>
           <img src = { item.thumbnail } style = { imgStyle } alt = { item.name }/>
           <div className = { 'char__name' }>{ item.name }</div>
         </li>
