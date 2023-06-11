@@ -1,77 +1,28 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
+import PropTypes from 'prop-types';
+
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
-import MarvelService from '../../services/MarvelService';
+import useMarvelService from '../../services/MarvelService';
 import './charList.scss';
 
-<<<<<<< Updated upstream
 const CharList = (props) => {
-=======
-<<<<<<< HEAD
-class CharList extends Component {
-  constructor() {
-    super();
-  }
-  state = {
-    characters: [],
-    loading: true,
-    error: false
-  };
-=======
-const CharList = (props) => {
->>>>>>> transfer
->>>>>>> Stashed changes
 
-  const [charList, setCharList] = useState('[]');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [charList, setCharList] = useState( [] );
   const [newItemLoading, setNewItemLoading] = useState(false);
   const [offset, setOffset] = useState(210);
   const [charEnded, setCharEnded] = useState(false);
 
-  const marvelService = new MarvelService();
-<<<<<<< Updated upstream
+  const {loading, error, getAllCharacters} = useMarvelService();
 
   useEffect( () => {
-    onRequest();
-  },
-  [] 
-  );
+    onRequest(offset, true);
+  }, [] );
 
-  const onRequest = (offset) => {
-    onCharListLoading();
-    marvelService.getAllCharacters(offset)
-      .then(onCharListLoaded)
-      .catch(onError);
-  };
-
-  const onCharListLoading = () => {
-    setNewItemLoading(true);
-=======
-
-  useEffect( () => {
-    onRequest();
-  },
-  [] 
-  );
-
-  const onRequest = (offset) => {
-    onCharListLoading();
-    marvelService.getAllCharacters(offset)
-      .then(onCharListLoaded)
-      .catch(onError);
-  };
-
-  const onCharListLoading = () => {
-    setNewItemLoading(true);
-  };
-
-<<<<<<< HEAD
-  onCharLoading = () => {
-    this.setState( {
-      loading: true,
-    } );
->>>>>>> Stashed changes
+  const onRequest = (offset, initial) => {
+    initial ? setNewItemLoading(false) : setNewItemLoading(true);
+    getAllCharacters(offset)
+      .then(onCharListLoaded);
   };
 
   const onCharListLoaded = (newCharList) => {
@@ -80,48 +31,31 @@ const CharList = (props) => {
       ended = true;
     }
 
-<<<<<<< Updated upstream
-    setCharList(charList => {[...charList, ...newCharList];} );
-    setLoading(false);
-    setNewItemLoading(false);
-    setOffset( (offset) => { offset + 9; } );
-    setCharEnded(ended);
+    setCharList(charList => [...charList, ...newCharList] );
+    setNewItemLoading(newItemLoading => false);
+    setOffset(offset => offset + 9);
+    setCharEnded(charEnded => ended);
   };
 
-=======
-  updateAllCharacters = () => {
-    this.onCharLoading();
-    this.marvelService.getAllCharacters()
-      .then(this.onCharactersLoaded)
-      .catch(this.onError);
-=======
-  const onCharListLoaded = (newCharList) => {
-    let ended = false;
-    if (newCharList.length < 9) {
-      ended = true;
-    }
+  const itemRefs = useRef( [] );
 
-    setCharList(charList => {[...charList, ...newCharList];} );
-    setLoading(false);
-    setNewItemLoading(false);
-    setOffset( (offset) => { offset + 9; } );
-    setCharEnded(ended);
->>>>>>> transfer
-  };
+  const focusOnItem = (id) => {
+    // Я реализовал вариант чуть сложнее, и с классом и с фокусом
+    // Но в теории можно оставить только фокус, и его в стилях использовать вместо класса
+    // На самом деле, решение с css-классом можно сделать, вынеся персонажа
+    // в отдельный компонент. Но кода будет больше, появится новое состояние
+    // и не факт, что мы выиграем по оптимизации за счет бОльшего кол-ва элементов
 
->>>>>>> Stashed changes
-  const onError = () => {
-    setError(true);
-    setLoading(false);
+    // По возможности, не злоупотребляйте рефами, только в крайних случаях
+    itemRefs.current.forEach(item => item.classList.remove('char__item_selected') );
+    itemRefs.current[id].classList.add('char__item_selected');
+    itemRefs.current[id].focus();
   };
 
   // Этот метод создан для оптимизации, 
   // чтобы не помещать такую конструкцию в метод render
-  const renderItems = (arr) => {
-    console.log(arr);
-		
-    if(arr === [] ) return null;  
-    const items = arr.map( (item) => {
+  function renderItems(arr) {
+    const items = arr.map( (item, i) => {
       let imgStyle = {'objectFit' : 'cover'};
       if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
         imgStyle = {'objectFit' : 'unset'};
@@ -130,22 +64,21 @@ const CharList = (props) => {
       return (
         <li 
           className = "char__item"
+          tabIndex = { 0 }
+          ref = { el => itemRefs.current[i] = el }
           key = { item.id }
-<<<<<<< Updated upstream
-          onClick = { () => props.onCharSelected(item.id) }>
+          onClick = { () => {
+            props.onCharSelected(item.id);
+            focusOnItem(i);
+          } }
+          onKeyPress = { (e) => {
+            if (e.key === ' ' || e.key === 'Enter') {
+              props.onCharSelected(item.id);
+              focusOnItem(i);
+            }
+          } }>
           <img src = { item.thumbnail } alt = { item.name } style = { imgStyle }/>
           <div className = "char__name">{item.name}</div>
-=======
-<<<<<<< HEAD
-          onClick = { () => this.props.onCharSelected(item.id) }>
-          <img src = { item.thumbnail } style = { imgStyle } alt = { item.name }/>
-          <div className = { 'char__name' }>{ item.name }</div>
-=======
-          onClick = { () => props.onCharSelected(item.id) }>
-          <img src = { item.thumbnail } alt = { item.name } style = { imgStyle }/>
-          <div className = "char__name">{item.name}</div>
->>>>>>> transfer
->>>>>>> Stashed changes
         </li>
       );
     } );
@@ -156,18 +89,18 @@ const CharList = (props) => {
         {items}
       </ul>
     );
-  };
-
+  }
+    
   const items = renderItems(charList);
+
   const errorMessage = error ? <ErrorMessage/> : null;
-  const spinner = loading ? <Spinner/> : null;
-  const content = !(loading || error) ? items : null;
+  const spinner = loading && !newItemLoading ? <Spinner/> : null;
 
   return (
     <div className = "char__list">
       {errorMessage}
       {spinner}
-      {content}
+      {items}
       <button 
         className = "button button__main button__long"
         disabled = { newItemLoading }
@@ -177,6 +110,10 @@ const CharList = (props) => {
       </button>
     </div>
   );
+};
+
+CharList.propTypes = {
+  onCharSelected: PropTypes.func.isRequired
 };
 
 export default CharList;
