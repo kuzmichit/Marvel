@@ -19,15 +19,15 @@ const App = () => {
     <div className = "app">
       <AppHeader/>
       <main>
-        <RandomChar/>
-        {/* <div className = "char__content">
-          <ErrorBoundary>
+        {/* <RandomChar/> */}
+        <div className = "char__content">
+          {/* <ErrorBoundary>
             <CharList onCharSelected = { onCharSelected } />
-          </ErrorBoundary>
+          </ErrorBoundary> */}
           <ErrorBoundary>
             <CharInfo charId = { charSelected }/>
           </ErrorBoundary>
-        </div> */}
+        </div>
         <img className = "bg-decoration" src = { decoration } alt = "vision"/>
       </main>
     </div>
