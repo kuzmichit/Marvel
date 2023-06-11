@@ -55,7 +55,7 @@ const CharList = (props) => {
   const renderItems = (arr) => {
     console.log(arr);
 		
-    if(arr == [] ) return null;  
+    if(arr === [] ) return null;  
     const items = arr.map( (item) => {
       let imgStyle = {'objectFit' : 'cover'};
       if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
