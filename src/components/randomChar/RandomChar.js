@@ -9,7 +9,6 @@ import mjolnir from '../../resources/img/mjolnir.png';
 const RandomChar = () => {
 
   const [char, setChar] = useState(null);
-	
   const {loading, error, getCharacter, clearError} = useMarvelService();
 
   useEffect( () => {

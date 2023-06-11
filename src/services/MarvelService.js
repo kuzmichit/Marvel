@@ -4,7 +4,8 @@ const useMarvelService = () => {
   const { loading, request, error, clearError } = useHttp();
 
   const _apiBase = 'https://gateway.marvel.com:443/v1/public/';
-  const _apiKey = process.env.REACT_APP_MARVEL_API_KEY;
+  // ЗДЕСЬ БУДЕТ ВАШ КЛЮЧ, ЭТОТ КЛЮЧ МОЖЕТ НЕ РАБОТАТЬ
+  const _apiKey = 'bccae30c7d71f0fcacb08790eb61aaea';
   const _baseOffset = 210;
 
   const getAllCharacters = async (offset = _baseOffset) => {
@@ -39,9 +40,9 @@ const useMarvelService = () => {
     return {
       id: char.id,
       name: char.name,
-      description: char.description,
-      // ? `${char.description.slice(0, 210)}...`
-      // : 'There is no description for this character',
+      description: char.description
+        ? `${char.description.slice(0, 210)}...`
+        : 'There is no description for this character',
       thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
       homepage: char.urls[0].url,
       wiki: char.urls[1].url,
@@ -59,7 +60,6 @@ const useMarvelService = () => {
         : 'No information about the number of pages',
       thumbnail: comics.thumbnail.path + '.' + comics.thumbnail.extension,
       language: comics.textObjects[0]?.language || 'en-us',
-      // optional chaining operator
       price: comics.prices[0].price
         ? `${comics.prices[0].price}$`
         : 'not available',
