@@ -1,3 +1,10 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+import {Component} from 'react';
+import MarvelService from '../../services/MarvelService';
+=======
+>>>>>>> Stashed changes
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
@@ -6,8 +13,59 @@ import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
 
+<<<<<<< Updated upstream
 import './charInfo.scss';
 
+const CharInfo = (props) => {
+=======
+>>>>>>> transfer
+import './charInfo.scss';
+
+<<<<<<< HEAD
+class CharInfo extends Component {
+>>>>>>> Stashed changes
+
+  const [char, setChar] = useState(null);
+
+  const {loading, error, getCharacter, clearError} = useMarvelService();
+
+  useEffect( () => {
+    updateChar();
+  }, [props.charId] );
+
+  const updateChar = () => {
+    const {charId} = props;
+    if (!charId) {
+      return;
+    }
+
+    clearError();
+    getCharacter(charId)
+      .then(onCharLoaded);
+  };
+
+  const onCharLoaded = (char) => {
+    setChar(char);
+  };
+<<<<<<< Updated upstream
+=======
+	
+  render() {
+    return (
+      <div className = "char__info">
+        <div className = "char__basics">
+          <img src = { thor } alt = "abyss"/>
+          <div>
+            <div className = "char__info-name">thor</div>
+            <div className = "char__btns">
+              <a href = "#" className = "button button__main">
+                <div className = "inner">homepage</div>
+              </a>
+              <a href = "#" className = "button button__secondary">
+                <div className = "inner">Wiki</div>
+              </a>
+            </div>
+=======
 const CharInfo = (props) => {
 
   const [char, setChar] = useState(null);
@@ -32,6 +90,7 @@ const CharInfo = (props) => {
   const onCharLoaded = (char) => {
     setChar(char);
   };
+>>>>>>> Stashed changes
 
   const skeleton = char || loading || error ? null : <Skeleton/>;
   const errorMessage = error ? <ErrorMessage/> : null;
@@ -70,9 +129,22 @@ const View = ( {char} ) => {
             <a href = { wiki } className = "button button__secondary">
               <div className = "inner">Wiki</div>
             </a>
+<<<<<<< Updated upstream
+=======
+>>>>>>> transfer
+>>>>>>> Stashed changes
           </div>
         </div>
       </div>
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+    );
+  }
+  
+}
+=======
+>>>>>>> Stashed changes
       <div className = "char__descr">
         {description}
       </div>
@@ -94,6 +166,10 @@ const View = ( {char} ) => {
     </>
   );
 };
+<<<<<<< Updated upstream
+=======
+>>>>>>> transfer
+>>>>>>> Stashed changes
 
 CharInfo.propTypes = {
   charId: PropTypes.number,

@@ -4,7 +4,23 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 import MarvelService from '../../services/MarvelService';
 import './charList.scss';
 
+<<<<<<< Updated upstream
 const CharList = (props) => {
+=======
+<<<<<<< HEAD
+class CharList extends Component {
+  constructor() {
+    super();
+  }
+  state = {
+    characters: [],
+    loading: true,
+    error: false
+  };
+=======
+const CharList = (props) => {
+>>>>>>> transfer
+>>>>>>> Stashed changes
 
   const [charList, setCharList] = useState('[]');
   const [loading, setLoading] = useState(true);
@@ -14,6 +30,24 @@ const CharList = (props) => {
   const [charEnded, setCharEnded] = useState(false);
 
   const marvelService = new MarvelService();
+<<<<<<< Updated upstream
+
+  useEffect( () => {
+    onRequest();
+  },
+  [] 
+  );
+
+  const onRequest = (offset) => {
+    onCharListLoading();
+    marvelService.getAllCharacters(offset)
+      .then(onCharListLoaded)
+      .catch(onError);
+  };
+
+  const onCharListLoading = () => {
+    setNewItemLoading(true);
+=======
 
   useEffect( () => {
     onRequest();
@@ -32,6 +66,35 @@ const CharList = (props) => {
     setNewItemLoading(true);
   };
 
+<<<<<<< HEAD
+  onCharLoading = () => {
+    this.setState( {
+      loading: true,
+    } );
+>>>>>>> Stashed changes
+  };
+
+  const onCharListLoaded = (newCharList) => {
+    let ended = false;
+    if (newCharList.length < 9) {
+      ended = true;
+    }
+
+<<<<<<< Updated upstream
+    setCharList(charList => {[...charList, ...newCharList];} );
+    setLoading(false);
+    setNewItemLoading(false);
+    setOffset( (offset) => { offset + 9; } );
+    setCharEnded(ended);
+  };
+
+=======
+  updateAllCharacters = () => {
+    this.onCharLoading();
+    this.marvelService.getAllCharacters()
+      .then(this.onCharactersLoaded)
+      .catch(this.onError);
+=======
   const onCharListLoaded = (newCharList) => {
     let ended = false;
     if (newCharList.length < 9) {
@@ -43,8 +106,10 @@ const CharList = (props) => {
     setNewItemLoading(false);
     setOffset( (offset) => { offset + 9; } );
     setCharEnded(ended);
+>>>>>>> transfer
   };
 
+>>>>>>> Stashed changes
   const onError = () => {
     setError(true);
     setLoading(false);
@@ -66,9 +131,21 @@ const CharList = (props) => {
         <li 
           className = "char__item"
           key = { item.id }
+<<<<<<< Updated upstream
           onClick = { () => props.onCharSelected(item.id) }>
           <img src = { item.thumbnail } alt = { item.name } style = { imgStyle }/>
           <div className = "char__name">{item.name}</div>
+=======
+<<<<<<< HEAD
+          onClick = { () => this.props.onCharSelected(item.id) }>
+          <img src = { item.thumbnail } style = { imgStyle } alt = { item.name }/>
+          <div className = { 'char__name' }>{ item.name }</div>
+=======
+          onClick = { () => props.onCharSelected(item.id) }>
+          <img src = { item.thumbnail } alt = { item.name } style = { imgStyle }/>
+          <div className = "char__name">{item.name}</div>
+>>>>>>> transfer
+>>>>>>> Stashed changes
         </li>
       );
     } );
