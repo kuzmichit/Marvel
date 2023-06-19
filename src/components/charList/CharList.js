@@ -71,7 +71,7 @@ const CharList = (props) => {
             props.onCharSelected(item.id);
             focusOnItem(i);
           } }
-          onKeyPress = { (e) => {
+          onKeyDown = { (e) => {
             if (e.key === ' ' || e.key === 'Enter') {
               props.onCharSelected(item.id);
               focusOnItem(i);
