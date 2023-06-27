@@ -1,14 +1,8 @@
 import { useState } from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 import AppHeader from '../appHeader/AppHeader';
-import RandomChar from '../randomChar/RandomChar';
-import CharList from '../charList/CharList';
-import CharInfo from '../charInfo/CharInfo';
-import ComicsList from '../comicsList/ComicsList';
-import AppBanner from '../appBanner/AppBanner';
-import ErrorBoundary from '../errorBoundary/ErrorBoundary';
-
+import {Main, Comics, Page404} from '../pages';
 const App = () => {
     
   const [selectedChar, setChar] = useState(null);
@@ -22,14 +16,22 @@ const App = () => {
       <div className = "app">
         <AppHeader/>
         <main>
-         
-          <ErrorBoundary>
-            <ComicsList/>
-          </ErrorBoundary>
-          <img className = "bg-decoration" src = { decoration } alt = "vision"/> 
+          <Routes>
+            <Route end path = "/" element = { <Main/> } errorElement = { <Page404/> }></Route>
+            <Route end path = "/comics" element = { <Comics/> }></Route>
+            <Route path = '*' element = { <Page404/> }></Route>
+          </Routes>      
         </main>
       </div>
     </Router>
+  );
+};
+
+const Tmp = () => {
+  return (
+    <>
+      <h1>Hello Borys</h1>
+    </>
   );
 };
 

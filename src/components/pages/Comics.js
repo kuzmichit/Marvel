@@ -6,7 +6,7 @@ const Comics = () => {
   return (
     <>
       <ErrorBoundary>
-				
+        <AppBanner/>
         <ComicsList/>
       </ErrorBoundary>
     </>

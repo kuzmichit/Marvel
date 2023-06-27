@@ -1,4 +1,5 @@
-import {useState} from 'react';
+import { useState } from 'react';
+
 import RandomChar from '../randomChar/RandomChar';
 import CharList from '../charList/CharList';
 import CharInfo from '../charInfo/CharInfo';
@@ -13,12 +14,12 @@ const Main = () => {
   const onCharSelected = (id) => {
     setChar(id);
   };
-  
+
   return (
     <>
       <ErrorBoundary>
         <RandomChar/>
-      </ErrorBoundary>   
+      </ErrorBoundary>
       <div className = "char__content">
         <ErrorBoundary>
           <CharList onCharSelected = { onCharSelected }/>
@@ -26,10 +27,10 @@ const Main = () => {
         <ErrorBoundary>
           <CharInfo charId = { selectedChar }/>
         </ErrorBoundary>
-        <img className = "bg-decoration" src = { decoration } alt = "vision"/> 
-      </div> 
+      </div>
+      <img className = "bg-decoration" src = { decoration } alt = "vision"/>
     </>
-  ); 
+  );
 };
 
 export default Main;
